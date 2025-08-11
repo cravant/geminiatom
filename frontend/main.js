@@ -2,7 +2,7 @@ const chatWindow = document.getElementById("chat-window");
 const chatForm = document.getElementById("chat-form");
 const chatInput = document.getElementById("chat-input");
 
-const backendURL = "https://geminiatom.onrender.com"; // update this after Step 2
+const backendURL = "https://geminiatom.onrender.com/api/chat"; // update this after Step 2
 
 function addMessage(text, sender) {
   const div = document.createElement("div");
