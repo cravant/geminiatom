@@ -2,7 +2,7 @@ const chatWindow = document.getElementById("chat-window");
 const chatForm = document.getElementById("chat-form");
 const chatInput = document.getElementById("chat-input");
 
-const backendURL = "https://YOUR-RENDER-APP.onrender.com/api/chat"; // update this after Step 2
+const backendURL = "https://api.render.com/deploy/srv-d2cq9nh5pdvs73du2650?key=Jkuly7LTK3A"; // update this after Step 2
 
 function addMessage(text, sender) {
   const div = document.createElement("div");
