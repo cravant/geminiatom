@@ -9,9 +9,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const client = new OpenAI({
+const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
+
+// your saved Prompt ID from OpenAI
+const PROMPT_ID = "pmpt_68999b956ec481948127e9babd560fd50303dbebb0399376";
 
 app.post("/api/chat", async (req, res) => {
   const { message } = req.body;
@@ -21,20 +24,22 @@ app.post("/api/chat", async (req, res) => {
   }
 
   try {
-    // NEW OpenAI API format (JS version)
-    const response = await client.responses.create({
-      model: "gpt-5-nano", // or whichever new model you selected
+    const response = await openai.responses.create({
+      model: "gpt-5-nano", // or whichever new model you’re using
       input: [
         {
-          role: "system",
-          content: "You are Gemini Atom, a friendly high school tutor for grades 9–12. Explain clearly and casually.",
+          role: "user",
+          content: message,
         },
-        { role: "user", content: message },
       ],
+      prompt: {
+        id: PROMPT_ID,
+        version: "3",
+      },
     });
 
-    // New API returns text like this:
-    const reply = response.output[0]?.content[0]?.text || "Sorry, no response";
+    // Extract text from the new API structure
+    const reply = response.output[0]?.content[0]?.text || "Sorry, no response.";
 
     res.json({ reply });
   } catch (error) {
