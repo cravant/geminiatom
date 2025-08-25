@@ -9,7 +9,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const openai = new OpenAI({
+const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
@@ -21,20 +21,19 @@ app.post("/api/chat", async (req, res) => {
   }
 
   try {
-    const response = await openai.responses.create({
-      model: "gpt-4.1-mini", // recommended model
+    // NEW OpenAI API format (JS version)
+    const response = await client.responses.create({
+      model: "gpt-5-nano", // or whichever new model you selected
       input: [
         {
           role: "system",
-          content: "You are Gemini Atom, a friendly high school tutor for grades 9–12. Explain clearly and casually."
+          content: "You are Gemini Atom, a friendly high school tutor for grades 9–12. Explain clearly and casually.",
         },
-        {
-          role: "user",
-          content: message
-        }
+        { role: "user", content: message },
       ],
     });
 
+    // New API returns text like this:
     const reply = response.output[0]?.content[0]?.text || "Sorry, no response";
 
     res.json({ reply });
