@@ -21,21 +21,21 @@ app.post("/api/chat", async (req, res) => {
   }
 
   try {
-   const response = await openai.responses.create({
-    model: "gpt-4.1-mini", // or "gpt-4.1" if you want stronger but more expensive
-    input: [
-      {
-        role: "system",
-        content: "You are Gemini Atom, a friendly high school tutor for grades 9–12. Explain clearly and casually."
-      },
-      {
-        role: "user",
-        content: message
-      }
-    ],
-  });
+    const response = await openai.responses.create({
+      model: "gpt-4.1-mini", // recommended model
+      input: [
+        {
+          role: "system",
+          content: "You are Gemini Atom, a friendly high school tutor for grades 9–12. Explain clearly and casually."
+        },
+        {
+          role: "user",
+          content: message
+        }
+      ],
+    });
 
-    const reply = response.choices?.[0]?.message?.content || "Sorry, no response";
+    const reply = response.output[0]?.content[0]?.text || "Sorry, no response";
 
     res.json({ reply });
   } catch (error) {
@@ -48,4 +48,3 @@ const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
-
